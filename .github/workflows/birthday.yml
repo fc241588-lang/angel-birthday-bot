@@ -1,13 +1,14 @@
 name: Birthday Bot
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "30 20 26 9 *"
-  workflow_dispatch:
 
 jobs:
   birthday:
     runs-on: ubuntu-latest
+
     steps:
       - name: Send birthday message
         env:
