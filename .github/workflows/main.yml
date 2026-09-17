@@ -1,11 +1,50 @@
 name: Birthday Bot
 
 on:
+  schedule:
+    - cron: '30 20 26 9 *'
   workflow_dispatch:
 
 jobs:
   birthday:
     runs-on: ubuntu-latest
     steps:
-      - name: Test
-        run: echo "Birthday Bot works!"
+      - name: Send birthday message
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          python -c "
+          import os
+          import urllib.parse
+          import urllib.request
+
+          token = os.environ['BOT_TOKEN']
+          chat_id = os.environ['CHAT_ID']
+
+          message = '''تولدتتتتتتتتتتتتتتتت 🎂✨🤍
+          روز شکفتهههه شدنتتتتتت🌸✨🤍
+          روز طلووووعتتتتتتتتتتتت🌞✨🤍
+          روز ظهورررر فرشتهههه خداااا👸🏻✨🤍
+          مبارررررررررررررکککککککککککککککک باشههه عمرممممممم🤍
+          خوشبختییییی منننن توی این روز اتفاق افتاده🥺 🤍
+          امروز باعث شده که من خوشبخت ترین آدم روی زمین باشم🫠🫠🫠🤍
+          قرررررررررررررررررررررررررررررررررررررررربببببببببووووووووووووونتتتتتتتتتتتت برمممممممممممممممممم منننننننننننن 🤍
+          قربون همه گشنگیات بشممممممم منننن🤍
+          فدای تک تک تار خوشه های طلات بشممم منننن🤍
+          فدای چشای ماهت بشمم منننن الهییییی🤍
+          مررررررسییییی کهههه به دنیاااا اومدییییییی فرشته قشنگممممممممممم🥺🤍
+          خیییییییییییییییییییییییلی دوست دارممممممم🫂🫂🫂🫂🤍🤍🤍🤍🤍'''
+
+          data = urllib.parse.urlencode({
+              'chat_id': chat_id,
+              'text': message
+          }).encode()
+
+          urllib.request.urlopen(
+              f'https://api.telegram.org/bot{token}/sendMessage',
+              data=data
+          )
+
+          print('Birthday message sent!')
+          "
