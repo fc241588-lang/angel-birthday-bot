@@ -1,0 +1,11 @@
+name: Birthday Bot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  birthday:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: echo "Birthday Bot works!"
